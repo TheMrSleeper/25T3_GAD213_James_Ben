@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddyanbqdyj65n"]
+
+[ext_resource type="PackedScene" uid="uid://dytmia58l4mkt" path="res://Node Prefabs/player.tscn" id="1_auylg"]
+[ext_resource type="Script" uid="uid://d27v7e8lw2kq8" path="res://Assets/Scripts/CameraSmooth.gd" id="2_uskgd"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_auylg")]
+position = Vector2(9, -6)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-9, 6)
+zoom = Vector2(3, 3)
+limit_enabled = false
+script = ExtResource("2_uskgd")
