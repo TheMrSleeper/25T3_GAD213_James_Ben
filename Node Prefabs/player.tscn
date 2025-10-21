@@ -1,22 +1,22 @@
 [gd_scene load_steps=187 format=3 uid="uid://dytmia58l4mkt"]
 
 [ext_resource type="Script" uid="uid://d0nvdfn01bm2u" path="res://Assets/Scripts/player.gd" id="1_1gfk3"]
-[ext_resource type="Texture2D" uid="uid://cjjmulkce0ac4" path="res://Assets/Textures/Character/DASH/dash_down.png" id="2_ia1m0"]
-[ext_resource type="Texture2D" uid="uid://dcfaw7f42evol" path="res://Assets/Textures/Character/DASH/dash_left.png" id="3_esd3g"]
-[ext_resource type="Texture2D" uid="uid://c0vbhjx4gnu7q" path="res://Assets/Textures/Character/DASH/dash_right.png" id="4_6utji"]
-[ext_resource type="Texture2D" uid="uid://bkqpy61u42yfa" path="res://Assets/Textures/Character/DASH/dash_up.png" id="5_hk3da"]
-[ext_resource type="Texture2D" uid="uid://l5qngvkshjg8" path="res://Assets/Textures/Character/IDLE/idle_down.png" id="6_62u4e"]
-[ext_resource type="Texture2D" uid="uid://douxyfopfcn13" path="res://Assets/Textures/Character/IDLE/idle_left.png" id="7_eowau"]
-[ext_resource type="Texture2D" uid="uid://bt814um3mwkte" path="res://Assets/Textures/Character/IDLE/idle_right.png" id="8_efgbx"]
-[ext_resource type="Texture2D" uid="uid://5o6j8w4ylxqm" path="res://Assets/Textures/Character/IDLE/idle_up.png" id="9_jg2m7"]
-[ext_resource type="Texture2D" uid="uid://du6fj812f6y21" path="res://Assets/Textures/Character/RUN/run_down.png" id="10_xexm2"]
-[ext_resource type="Texture2D" uid="uid://cjju7jwkj2rmb" path="res://Assets/Textures/Character/RUN/run_left.png" id="11_2sner"]
-[ext_resource type="Texture2D" uid="uid://cb0hjj2sit0g7" path="res://Assets/Textures/Character/RUN/run_right.png" id="12_dn08j"]
-[ext_resource type="Texture2D" uid="uid://csd5jmvdfrky" path="res://Assets/Textures/Character/RUN/run_up.png" id="13_ukmjx"]
-[ext_resource type="Texture2D" uid="uid://d2x6gyb078b0f" path="res://Assets/Textures/Character/WALK/walk_down.png" id="14_6ynqr"]
-[ext_resource type="Texture2D" uid="uid://b0gy0lcmln8no" path="res://Assets/Textures/Character/WALK/walk_left.png" id="15_clg3t"]
-[ext_resource type="Texture2D" uid="uid://bqyahqr2cxh46" path="res://Assets/Textures/Character/WALK/walk_right.png" id="16_h2tqv"]
-[ext_resource type="Texture2D" uid="uid://dbp7jguypyihl" path="res://Assets/Textures/Character/WALK/walk_up.png" id="17_5ybkw"]
+[ext_resource type="Texture2D" uid="uid://cjjmulkce0ac4" path="res://Assets/Sprites/Character/DASH/dash_down.png" id="2_ia1m0"]
+[ext_resource type="Texture2D" uid="uid://dcfaw7f42evol" path="res://Assets/Sprites/Character/DASH/dash_left.png" id="3_esd3g"]
+[ext_resource type="Texture2D" uid="uid://c0vbhjx4gnu7q" path="res://Assets/Sprites/Character/DASH/dash_right.png" id="4_6utji"]
+[ext_resource type="Texture2D" uid="uid://bkqpy61u42yfa" path="res://Assets/Sprites/Character/DASH/dash_up.png" id="5_hk3da"]
+[ext_resource type="Texture2D" uid="uid://l5qngvkshjg8" path="res://Assets/Sprites/Character/IDLE/idle_down.png" id="6_62u4e"]
+[ext_resource type="Texture2D" uid="uid://douxyfopfcn13" path="res://Assets/Sprites/Character/IDLE/idle_left.png" id="7_eowau"]
+[ext_resource type="Texture2D" uid="uid://bt814um3mwkte" path="res://Assets/Sprites/Character/IDLE/idle_right.png" id="8_efgbx"]
+[ext_resource type="Texture2D" uid="uid://5o6j8w4ylxqm" path="res://Assets/Sprites/Character/IDLE/idle_up.png" id="9_jg2m7"]
+[ext_resource type="Texture2D" uid="uid://du6fj812f6y21" path="res://Assets/Sprites/Character/RUN/run_down.png" id="10_xexm2"]
+[ext_resource type="Texture2D" uid="uid://cjju7jwkj2rmb" path="res://Assets/Sprites/Character/RUN/run_left.png" id="11_2sner"]
+[ext_resource type="Texture2D" uid="uid://cb0hjj2sit0g7" path="res://Assets/Sprites/Character/RUN/run_right.png" id="12_dn08j"]
+[ext_resource type="Texture2D" uid="uid://csd5jmvdfrky" path="res://Assets/Sprites/Character/RUN/run_up.png" id="13_ukmjx"]
+[ext_resource type="Texture2D" uid="uid://d2x6gyb078b0f" path="res://Assets/Sprites/Character/WALK/walk_down.png" id="14_6ynqr"]
+[ext_resource type="Texture2D" uid="uid://b0gy0lcmln8no" path="res://Assets/Sprites/Character/WALK/walk_left.png" id="15_clg3t"]
+[ext_resource type="Texture2D" uid="uid://bqyahqr2cxh46" path="res://Assets/Sprites/Character/WALK/walk_right.png" id="16_h2tqv"]
+[ext_resource type="Texture2D" uid="uid://dbp7jguypyihl" path="res://Assets/Sprites/Character/WALK/walk_up.png" id="17_5ybkw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_621vu"]
 radius = 6.0
@@ -1504,10 +1504,6 @@ texture_filter = 1
 texture_repeat = 1
 sprite_frames = SubResource("SpriteFrames_6mdyi")
 animation = &"idle_left"
-
-[node name="Camera2D" type="Camera2D" parent="Sprite"]
-zoom = Vector2(2, 2)
-position_smoothing_speed = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
