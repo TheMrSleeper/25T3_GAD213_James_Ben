@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cv5p1g8thkih5"
+path="res://.godot/imported/WHSH_MOVEMENT-Windy Passby_HY_PC-002.wav-f7bd51801079377fdade8c9dbe762576.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Dash/WHSH_MOVEMENT-Windy Passby_HY_PC-002.wav"
+dest_files=["res://.godot/imported/WHSH_MOVEMENT-Windy Passby_HY_PC-002.wav-f7bd51801079377fdade8c9dbe762576.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
