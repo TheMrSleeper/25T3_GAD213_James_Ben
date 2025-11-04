@@ -48,6 +48,7 @@ var animTree_state_keys = [
 ]
 
 func _ready() -> void:
+	add_to_group("player")
 	healthChanged.emit()
 	staminaChanged.emit()
 
@@ -134,6 +135,11 @@ func _dash_logic(delta: float) -> void:
 		#dash_dir = Vector2.ZERO
 		#can_take_damage = true
 		#is_dashing = false
+
+func change_health(delta: float) -> void:
+	currentHealth = clampf(currentHealth + delta, 0.0, maxHealth)
+	healthChanged.emit()
+	print("HP change: %+d -> %.1f/%.1f" % [int(delta), currentHealth, maxHealth])
 
 func animate() -> void:
 	state_machine.travel(animTree_state_keys[state])
