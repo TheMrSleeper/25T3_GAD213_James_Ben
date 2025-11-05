@@ -1,8 +1,8 @@
 [gd_scene load_steps=22 format=4 uid="uid://ddyanbqdyj65n"]
 
 [ext_resource type="PackedScene" uid="uid://dytmia58l4mkt" path="res://Node Prefabs/player.tscn" id="1_auylg"]
-[ext_resource type="Texture2D" uid="uid://dmohaovlvs7hs" path="res://Assets/Textures/Tiles/SpriteSheetCleaned.png" id="1_m0s43"]
-[ext_resource type="Texture2D" uid="uid://not10vp4kwfo" path="res://Assets/Textures/Environment/SpriteSheet.png" id="3_m0s43"]
+[ext_resource type="Texture2D" uid="uid://dmohaovlvs7hs" path="res://Assets/Sprites/Tiles/SpriteSheetCleaned.png" id="1_m0s43"]
+[ext_resource type="Texture2D" uid="uid://not10vp4kwfo" path="res://Assets/Sprites/Environment/SpriteSheet.png" id="3_m0s43"]
 [ext_resource type="Texture2D" uid="uid://bcqcxx7iva6gv" path="res://Assets/Sprites/Tiles/Red_Marker.png" id="4_0jtpg"]
 [ext_resource type="Script" uid="uid://bxnd36v3yqmem" path="res://Assets/Scripts/healthBar.gd" id="4_crf2g"]
 [ext_resource type="Texture2D" uid="uid://djvj21gsj284p" path="res://Assets/UI/Sprites/ValueBar_128x16.png" id="5_cbptv"]
@@ -249,7 +249,7 @@ texture = ExtResource("3_m0s43")
 13:3/size_in_atlas = Vector2i(2, 2)
 13:3/0 = 0
 13:3/0/y_sort_origin = 2
-13:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -12, 8, -12, 12, -8, 12, 8, 8, 12, -8, 12, -12, 8, -12, -8)
+13:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5.333333, -2.6666665, 5.333334, -2.6666665, 8, 0, 8, 8, 5.333334, 10.666668, -5.333333, 10.666668, -8, 8, -8, 0)
 13:5/size_in_atlas = Vector2i(2, 2)
 13:5/0 = 0
 13:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-12, 4, 10, 4, 14, 6, 10, 12, 4, 14, -6, 14, -12, 12, -12, 8)
