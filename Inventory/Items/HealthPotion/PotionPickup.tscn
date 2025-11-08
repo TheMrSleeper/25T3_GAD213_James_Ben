@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://bncv4lqha7fdf"]
+
+[ext_resource type="Script" uid="uid://jmn4vt4180xw" path="res://Assets/Scripts/pickupItem.gd" id="1_hn30k"]
+[ext_resource type="Resource" uid="uid://dbq78on2wjd8o" path="res://Inventory/Items/HealthPotion/health_potion.tres" id="2_7kokd"]
+[ext_resource type="Texture2D" uid="uid://bf0yq5o7fqemx" path="res://Assets/UI/Sprites/ItemsIcons_24x24.png" id="2_8mbk6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y7v7q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdevy"]
+atlas = ExtResource("2_8mbk6")
+region = Rect2(39, 72, 17, 17)
+
+[node name="HealthPotionPickup" type="Area2D"]
+scale = Vector2(0.8, 0.8)
+collision_layer = 2
+script = ExtResource("1_hn30k")
+item = ExtResource("2_7kokd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CircleShape2D_y7v7q")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_fdevy")

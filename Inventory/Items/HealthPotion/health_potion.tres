@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="HealthPotion" load_steps=4 format=3 uid="uid://dbq78on2wjd8o"]
+
+[ext_resource type="Script" uid="uid://dg3acdf8opij8" path="res://Inventory/Items/HealthPotion/health_potion.gd" id="1_y16ia"]
+[ext_resource type="Texture2D" uid="uid://bf0yq5o7fqemx" path="res://Assets/UI/Sprites/ItemsIcons_24x24.png" id="2_xcb06"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm4us"]
+atlas = ExtResource("2_xcb06")
+region = Rect2(39, 72, 17, 17)
+
+[resource]
+script = ExtResource("1_y16ia")
+id = "health_potion"
+display_name = "Health Potion"
+max_stack = 5
+texture = SubResource("AtlasTexture_sm4us")
+item_type = "potion"
+metadata/_custom_type_script = "uid://bympxbaomo683"

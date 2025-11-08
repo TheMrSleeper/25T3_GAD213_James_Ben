@@ -1,4 +1,4 @@
-[gd_scene load_steps=218 format=3 uid="uid://dytmia58l4mkt"]
+[gd_scene load_steps=214 format=3 uid="uid://dytmia58l4mkt"]
 
 [ext_resource type="Script" uid="uid://d0nvdfn01bm2u" path="res://Assets/Scripts/player.gd" id="1_1gfk3"]
 [ext_resource type="Texture2D" uid="uid://cjjmulkce0ac4" path="res://Assets/Sprites/Character/DASH/dash_down.png" id="2_ia1m0"]
@@ -1631,7 +1631,7 @@ blend_point_3/pos = Vector2(0, -1)
 blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_dcjhs"]
-graph_offset = Vector2(-196.09995, 119.93313)
+graph_offset = Vector2(-159, 104)
 nodes/output/position = Vector2(426.66666, 200)
 nodes/dash_bs2d/node = SubResource("AnimationNodeBlendSpace2D_os4hb")
 nodes/dash_bs2d/position = Vector2(40, 133.33333)
@@ -1694,7 +1694,6 @@ blend_point_2/node = SubResource("AnimationNodeAnimation_brjfb")
 blend_point_2/pos = Vector2(0, -1)
 blend_point_3/node = SubResource("AnimationNodeAnimation_tvgcc")
 blend_point_3/pos = Vector2(-1, 0)
-blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_qe7ry"]
 nodes/potion_bs2d/node = SubResource("AnimationNodeBlendSpace2D_35x6g")
@@ -1749,14 +1748,6 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hgxnp"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ia1m0"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_esd3g"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6utji"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hk3da"]
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_wmjmm"]
 states/End/position = Vector2(653, 108.666664)
 states/dash/node = SubResource("AnimationNodeBlendTree_dcjhs")
@@ -1764,24 +1755,19 @@ states/dash/position = Vector2(549.3334, 141.33333)
 states/idle/node = SubResource("AnimationNodeBlendTree_gp88a")
 states/idle/position = Vector2(378, 100)
 states/potion/node = SubResource("AnimationNodeBlendTree_qe7ry")
-states/potion/position = Vector2(537, 228)
+states/potion/position = Vector2(378, 11)
 states/run/node = SubResource("AnimationNodeBlendTree_0227s")
 states/run/position = Vector2(378, 193)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_t1gnk"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_tniys"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_juckq"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_1edhl"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_trlec"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_an5kr"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_hgxnp"), "idle", "potion", SubResource("AnimationNodeStateMachineTransition_ia1m0"), "potion", "idle", SubResource("AnimationNodeStateMachineTransition_esd3g"), "dash", "potion", SubResource("AnimationNodeStateMachineTransition_6utji"), "run", "potion", SubResource("AnimationNodeStateMachineTransition_hk3da")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_t1gnk"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_tniys"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_juckq"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_1edhl"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_trlec"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_an5kr"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_hgxnp")]
 graph_offset = Vector2(-254, -33)
 
 [node name="Player" type="CharacterBody2D"]
-collision_layer = 5
-collision_mask = 7
 script = ExtResource("1_1gfk3")
 staminaRegenDelay = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 13)
 shape = SubResource("CapsuleShape2D_621vu")
-
-[node name="HeadAnchor" type="Marker2D" parent="."]
-position = Vector2(0, -18)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

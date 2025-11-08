@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://ddyanbqdyj65n"]
+[gd_scene load_steps=24 format=4 uid="uid://ddyanbqdyj65n"]
 
 [ext_resource type="PackedScene" uid="uid://dytmia58l4mkt" path="res://Node Prefabs/player.tscn" id="1_auylg"]
 [ext_resource type="Texture2D" uid="uid://dmohaovlvs7hs" path="res://Assets/Sprites/Tiles/SpriteSheetCleaned.png" id="1_m0s43"]
@@ -10,8 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://bf0yq5o7fqemx" path="res://Assets/UI/Sprites/ItemsIcons_24x24.png" id="7_2ts83"]
 [ext_resource type="Texture2D" uid="uid://kvjnefogtdxx" path="res://Assets/UI/Sprites/ValueGreen_120x8-sheet.png" id="7_cbptv"]
 [ext_resource type="Texture2D" uid="uid://dloeyhf8lgojg" path="res://Assets/UI/Sprites/HealthBarPanel_Edit_160x41-sheet.png" id="8_0jtpg"]
+[ext_resource type="Script" uid="uid://dri4gl48qd2ih" path="res://Assets/Scripts/potion_counter.gd" id="8_mjynw"]
 [ext_resource type="Script" uid="uid://bqfaq3b8p2mw4" path="res://Assets/Scripts/staminaBar.gd" id="9_lj3dt"]
 [ext_resource type="Script" uid="uid://cu3tkps28amah" path="res://Assets/Scripts/playerCamera.gd" id="10_irc8b"]
+[ext_resource type="PackedScene" uid="uid://bncv4lqha7fdf" path="res://Inventory/Items/HealthPotion/PotionPickup.tscn" id="12_gia7o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mjynw"]
 atlas = ExtResource("7_2ts83")
@@ -284,7 +286,8 @@ texture = ExtResource("3_m0s43")
 31:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -2.6666665, 8, -2.6666665, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_evltv"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 5
 sources/0 = SubResource("TileSetAtlasSource_crf2g")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cbptv"]
@@ -487,7 +490,8 @@ texture = ExtResource("4_0jtpg")
 45:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_2ts83"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 5
 sources/0 = SubResource("TileSetAtlasSource_irc8b")
 
 [node name="MainLevel" type="Node2D"]
@@ -525,23 +529,25 @@ script = ExtResource("9_lj3dt")
 player = NodePath("../../YSort/Player")
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI"]
+[node name="PotionCounter" type="HBoxContainer" parent="GUI"]
 offset_left = 10.0
 offset_top = 80.0
 offset_right = 81.0
 offset_bottom = 114.0
+script = ExtResource("8_mjynw")
+player_path = NodePath("../../YSort/Player")
 
-[node name="TextureRect" type="TextureRect" parent="GUI/HBoxContainer"]
+[node name="PotionIcon" type="TextureRect" parent="GUI/PotionCounter"]
 texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_mjynw")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="GUI/HBoxContainer"]
+[node name="PotionNumber" type="Label" parent="GUI/PotionCounter"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "x 3"
+text = "X 3"
 
 [node name="Ground" type="TileMapLayer" parent="."]
 position = Vector2(310, 6)
@@ -559,6 +565,16 @@ tile_set = SubResource("TileSet_evltv")
 
 [node name="Player" parent="YSort" instance=ExtResource("1_auylg")]
 position = Vector2(-311, -5)
+staminaRegenDelay = 0.5
+
+[node name="HealthPotionPickup" parent="YSort" instance=ExtResource("12_gia7o")]
+position = Vector2(-686, -89)
+
+[node name="HealthPotionPickup2" parent="YSort" instance=ExtResource("12_gia7o")]
+position = Vector2(-653, -130)
+
+[node name="HealthPotionPickup3" parent="YSort" instance=ExtResource("12_gia7o")]
+position = Vector2(-622, -79)
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
 texture_filter = 1
