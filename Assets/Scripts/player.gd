@@ -171,25 +171,27 @@ func _drink_potion(dir: Vector2 = Vector2.ZERO) -> void:
 		dir = facing_dir
 		if dir == Vector2.ZERO:
 			dir = Vector2.DOWN
-	
+
 	if potion_pouch:
 		var selected_id := potion_pouch.get_selected_id()
 		if selected_id == "":
 			return
-		
+			
+		var item := potion_pouch.get_item(selected_id)
+		if item == null:
+			return
+			
+		if not item.can_apply(self):
+			return
+			
 		if potion_pouch.can_use(selected_id, 1):
 			is_drinking = true
 			potion_dir = dir
 			potion_timer = POTION_DURATION
 			blend_position = dir
 			state = POTION
-			
-			var used := potion_pouch.use_selected(1)
-			if used:
-				var item := potion_pouch.get_item(selected_id)
-				if item and item.can_apply(self):
-					item.apply(self)
-			return
+			if potion_pouch.use_selected(1):
+				item.apply(self)
 
 func _potion_logic(delta: float) -> void:
 	var elapsed_percent = clamp(1.0 - (potion_timer / POTION_DURATION), 0.0, 1.0)

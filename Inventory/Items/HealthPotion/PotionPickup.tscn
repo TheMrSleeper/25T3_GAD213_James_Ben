@@ -11,6 +11,7 @@ atlas = ExtResource("2_8mbk6")
 region = Rect2(39, 72, 17, 17)
 
 [node name="HealthPotionPickup" type="Area2D"]
+process_mode = 3
 scale = Vector2(0.8, 0.8)
 collision_layer = 2
 script = ExtResource("1_hn30k")

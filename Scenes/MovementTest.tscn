@@ -1,8 +1,13 @@
-[gd_scene load_steps=24 format=4 uid="uid://ddyanbqdyj65n"]
+[gd_scene load_steps=37 format=4 uid="uid://ddyanbqdyj65n"]
 
 [ext_resource type="PackedScene" uid="uid://dytmia58l4mkt" path="res://Node Prefabs/player.tscn" id="1_auylg"]
+[ext_resource type="Texture2D" uid="uid://c8vjqjbjjgldh" path="res://Assets/UI/Sprites/RectangleBox_96x96.png" id="1_h58ng"]
 [ext_resource type="Texture2D" uid="uid://dmohaovlvs7hs" path="res://Assets/Sprites/Tiles/SpriteSheetCleaned.png" id="1_m0s43"]
+[ext_resource type="PackedScene" uid="uid://b5yvrcn5x8mdv" path="res://Node Prefabs/game_manager.tscn" id="1_wqw3y"]
+[ext_resource type="FontFile" uid="uid://dsi2qnl2dwtbr" path="res://Assets/Fonts/at01.ttf" id="2_b3thw"]
+[ext_resource type="Texture2D" uid="uid://cw4jy1b4q8i56" path="res://Assets/UI/Sprites/RightArrowButton_7x10.png" id="3_b3thw"]
 [ext_resource type="Texture2D" uid="uid://not10vp4kwfo" path="res://Assets/Sprites/Environment/SpriteSheet.png" id="3_m0s43"]
+[ext_resource type="Script" uid="uid://dio4x1ejqs12q" path="res://Assets/Scripts/dialogue.gd" id="3_qvwxf"]
 [ext_resource type="Texture2D" uid="uid://bcqcxx7iva6gv" path="res://Assets/Sprites/Tiles/Red_Marker.png" id="4_0jtpg"]
 [ext_resource type="Script" uid="uid://bxnd36v3yqmem" path="res://Assets/Scripts/healthBar.gd" id="4_crf2g"]
 [ext_resource type="Texture2D" uid="uid://djvj21gsj284p" path="res://Assets/UI/Sprites/ValueBar_128x16.png" id="5_cbptv"]
@@ -14,6 +19,44 @@
 [ext_resource type="Script" uid="uid://bqfaq3b8p2mw4" path="res://Assets/Scripts/staminaBar.gd" id="9_lj3dt"]
 [ext_resource type="Script" uid="uid://cu3tkps28amah" path="res://Assets/Scripts/playerCamera.gd" id="10_irc8b"]
 [ext_resource type="PackedScene" uid="uid://bncv4lqha7fdf" path="res://Inventory/Items/HealthPotion/PotionPickup.tscn" id="12_gia7o"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qvwxf"]
+texture = ExtResource("1_h58ng")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="Theme" id="Theme_wqw3y"]
+default_font = ExtResource("2_b3thw")
+default_font_size = 32
+Label/colors/font_color = Color(1, 0.8666667, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.79607844)
+Label/font_sizes/font_size = 48
+Panel/styles/panel = SubResource("StyleBoxTexture_qvwxf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wqw3y"]
+texture = ExtResource("3_b3thw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pik0d"]
+texture = ExtResource("3_b3thw")
+modulate_color = Color(0.12783335, 0.59, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uw0el"]
+texture = ExtResource("3_b3thw")
+modulate_color = Color(1, 0.8000001, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jfcr7"]
+texture = ExtResource("3_b3thw")
+modulate_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s54qh"]
+texture = ExtResource("3_b3thw")
+modulate_color = Color(0.3499999, 1, 0, 1)
+
+[sub_resource type="Theme" id="Theme_pik0d"]
+default_font = ExtResource("2_b3thw")
+default_font_size = 32
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mjynw"]
 atlas = ExtResource("7_2ts83")
@@ -496,7 +539,88 @@ sources/0 = SubResource("TileSetAtlasSource_irc8b")
 
 [node name="MainLevel" type="Node2D"]
 
+[node name="GameManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("1_wqw3y")]
+process_mode = 4
+player = NodePath("../YSort/Player")
+
 [node name="GUI" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="DialogueBox" type="Control" parent="GUI"]
+unique_name_in_owner = true
+process_mode = 3
+clip_contents = true
+layout_mode = 3
+anchor_top = 0.666
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_wqw3y")
+script = ExtResource("3_qvwxf")
+speaker_path = NodePath("VBoxContainer/Speaker")
+dialogue_path = NodePath("VBoxContainer/Dialogue")
+continue_path = NodePath("Box/Continue")
+
+[node name="Box" type="Panel" parent="GUI/DialogueBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="GUI/DialogueBox/Box"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.32788
+offset_top = -45.685425
+offset_right = -14.327881
+offset_bottom = -13.685425
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_wqw3y")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pik0d")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uw0el")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_jfcr7")
+theme_override_styles/focus = SubResource("StyleBoxTexture_s54qh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/DialogueBox"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.026
+anchor_top = 0.11100001
+anchor_right = 0.95300007
+anchor_bottom = 0.88900006
+offset_left = 0.048000336
+offset_top = -0.023954391
+offset_right = 0.1439209
+offset_bottom = 0.02394104
+grow_horizontal = 2
+
+[node name="Speaker" type="Label" parent="GUI/DialogueBox/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Someone"
+
+[node name="Dialogue" type="RichTextLabel" parent="GUI/DialogueBox/VBoxContainer"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 2
+bbcode_enabled = true
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+fit_content = true
 
 [node name="HealthBar" type="TextureProgressBar" parent="GUI" node_paths=PackedStringArray("player")]
 anchors_preset = -1
@@ -534,6 +658,7 @@ offset_left = 10.0
 offset_top = 80.0
 offset_right = 81.0
 offset_bottom = 114.0
+theme = SubResource("Theme_pik0d")
 script = ExtResource("8_mjynw")
 player_path = NodePath("../../YSort/Player")
 
@@ -546,8 +671,7 @@ stretch_mode = 4
 
 [node name="PotionNumber" type="Label" parent="GUI/PotionCounter"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "X 3"
+text = "3"
 
 [node name="Ground" type="TileMapLayer" parent="."]
 position = Vector2(310, 6)
@@ -598,3 +722,5 @@ y_sort_origin = 1
 [node name="MapBounds" type="TileMapLayer" parent="Folliage"]
 tile_map_data = PackedByteArray("AADO/w8AAAAtACEAAADN/w4AAAAtACEAAADP/w8AAAAtACEAAADQ/w8AAAAtACEAAADR/w8AAAAtACEAAADS/w8AAAAtACEAAADT/w8AAAAtACEAAADU/w8AAAAtACEAAADV/w8AAAAtACEAAADW/w8AAAAtACEAAADX/w8AAAAtACEAAADY/w8AAAAtACEAAADZ/w8AAAAtACEAAADa/w8AAAAtACEAAADb/w8AAAAtACEAAADc/w8AAAAtACEAAADd/w8AAAAtACEAAADg/w8AAAAtACEAAADh/w8AAAAtACEAAADi/w4AAAAtACEAAADj/w0AAAAtACEAAADj/wwAAAAtACEAAADj/wsAAAAtACEAAADj/woAAAAtACEAAADj/wkAAAAtACEAAADj/wgAAAAtACEAAADk/wcAAAAtACEAAADl/wcAAAAtACEAAADm/wcAAAAtACEAAADn/wcAAAAtACEAAADo/wcAAAAtACEAAADp/wcAAAAtACEAAADq/wcAAAAtACEAAADr/wcAAAAtACEAAADs/wcAAAAtACEAAADt/wcAAAAtACEAAADu/wYAAAAtACEAAADv/wYAAAAtACEAAADw/wYAAAAtACEAAADx/wYAAAAtACEAAADy/wUAAAAtACEAAADz/wUAAAAtACEAAAD0/wUAAAAtACEAAAD1/wUAAAAtACEAAAD2/wUAAAAtACEAAAD3/wQAAAAtACEAAAD4/wQAAAAtACEAAAD4/wUAAAAtACEAAAD4/wYAAAAtACEAAAD4/wcAAAAtACEAAAD4/wgAAAAtACEAAAD5/wkAAAAtACEAAAD6/wkAAAAtACEAAAD7/wkAAAAtACEAAAD8/wkAAAAtACEAAAD9/wkAAAAtACEAAAD+/wkAAAAtACEAAAD//wkAAAAtACEAAAAAAAkAAAAtACEAAAABAAkAAAAtACEAAAACAAkAAAAtACEAAAADAAgAAAAtACEAAAAEAAcAAAAtACEAAAAFAAcAAAAtACEAAAAGAAcAAAAtACEAAAAHAAcAAAAtACEAAAAIAAcAAAAtACEAAAAJAAcAAAAtACEAAAAKAAcAAAAtACEAAAALAAcAAAAtACEAAAAMAAcAAAAtACEAAAANAAcAAAAtACEAAAAOAAcAAAAtACEAAAAPAAYAAAAtACEAAAAPAAUAAAAtACEAAAAQAAQAAAAtACEAAAAQAAMAAAAtACEAAAAQAAIAAAAtACEAAAAQAAEAAAAtACEAAAAQAP//AAAtACEAAAAQAAAAAAAtACEAAAAQAP7/AAAtACEAAAAPAP3/AAAtACEAAAAOAPz/AAAtACEAAAANAPv/AAAtACEAAAAMAPv/AAAtACEAAAALAPv/AAAtACEAAAAKAPv/AAAtACEAAAAJAPv/AAAtACEAAAAIAPr/AAAtACEAAAAHAPn/AAAtACEAAAAGAPj/AAAtACEAAAAGAPf/AAAtACEAAAAGAPb/AAAtACEAAAAGAPX/AAAtACEAAAAFAPT/AAAtACEAAAAEAPP/AAAtACEAAAADAPL/AAAtACEAAAACAPH/AAAtACEAAAABAPD/AAAtACEAAAAAAPD/AAAtACEAAAD///D/AAAtACEAAAD+//D/AAAtACEAAAD9//D/AAAtACEAAAD8//D/AAAtACEAAAD7//D/AAAtACEAAAD6//D/AAAtACEAAAD5//D/AAAtACEAAAD5//H/AAAtACEAAAD4//L/AAAtACEAAAD3//P/AAAtACEAAAD2//T/AAAtACEAAAD2//X/AAAtACEAAAD2//b/AAAtACEAAAD2//f/AAAtACEAAAD1//j/AAAtACEAAAD0//j/AAAtACEAAADz//j/AAAtACEAAADy//f/AAAtACEAAADy//b/AAAtACEAAADy//X/AAAtACEAAADy//T/AAAtACEAAADx//P/AAAtACEAAADw//L/AAAtACEAAADv//H/AAAtACEAAADu//H/AAAtACEAAADt//H/AAAtACEAAADs//H/AAAtACEAAADr//H/AAAtACEAAADq//H/AAAtACEAAADp//H/AAAtACEAAADo//H/AAAtACEAAADn//H/AAAtACEAAADm//H/AAAtACEAAADl//H/AAAtACEAAADk//L/AAAtACEAAADj//P/AAAtACEAAADi//T/AAAtACEAAADh//X/AAAtACEAAADg//b/AAAtACEAAADf//f/AAAtACEAAADf//b/AAAtACEAAADf//X/AAAtACEAAADf//T/AAAtACEAAADf//P/AAAtACEAAADf//L/AAAtACEAAADf//H/AAAtACEAAADf//D/AAAtACEAAADe//D/AAAtACEAAADd//D/AAAtACEAAADc//D/AAAtACEAAADb//D/AAAtACEAAADY//D/AAAtACEAAADZ//D/AAAtACEAAADa//D/AAAtACEAAADV//D/AAAtACEAAADU//D/AAAtACEAAADW//D/AAAtACEAAADX//D/AAAtACEAAADT//D/AAAtACEAAADS//D/AAAtACEAAADR//H/AAAtACEAAADQ//L/AAAtACEAAADP//P/AAAtACEAAADP//T/AAAtACEAAADP//X/AAAtACEAAADP//b/AAAtACEAAADP//f/AAAtACEAAADP//j/AAAtACEAAADP//n/AAAtACEAAADP//r/AAAtACEAAADP//v/AAAtACEAAADO//z/AAAtACEAAADN//3/AAAtACEAAADN//7/AAAtACEAAADN////AAAtACEAAADN/wAAAAAtACEAAADN/wEAAAAtACEAAADN/wIAAAAtACEAAADN/wMAAAAtACEAAADN/wQAAAAtACEAAADN/wUAAAAtACEAAADN/wYAAAAtACEAAADN/wcAAAAtACEAAADN/wgAAAAtACEAAADN/wkAAAAtACEAAADN/woAAAAtACEAAADN/wsAAAAtACEAAADN/wwAAAAtACEAAADN/w0AAAAtACEAAADa//H/AAAtACEAAADZ//H/AAAtACEAAADY//H/AAAtACEAAADX//H/AAAtACEAAADW//H/AAAtACEAAADV//H/AAAtACEAAADU//H/AAAtACEAAADT//H/AAAtACEAAADS//H/AAAtACEAAADS//L/AAAtACEAAADR//P/AAAtACEAAADQ//T/AAAtACEAAADQ//X/AAAtACEAAADQ//b/AAAtACEAAADb//H/AAAtACEAAADc//H/AAAtACEAAADd//L/AAAtACEAAADe//P/AAAtACEAAADe//T/AAAtACEAAADe//X/AAAtACEAAADe//b/AAAtACEAAADe//f/AAAtACEAAADe//j/AAAtACEAAADf//j/AAAtACEAAADg//j/AAAtACEAAADh//f/AAAtACEAAADi//b/AAAtACEAAADj//X/AAAtACEAAADk//T/AAAtACEAAADl//P/AAAtACEAAADm//L/AAAtACEAAADn//L/AAAtACEAAADo//L/AAAtACEAAADp//L/AAAtACEAAADq//L/AAAtACEAAADr//L/AAAtACEAAADs//L/AAAtACEAAADt//L/AAAtACEAAADu//L/AAAtACEAAADv//P/AAAtACEAAADw//T/AAAtACEAAADw//X/AAAtACEAAADx//b/AAAtACEAAADx//f/AAAtACEAAADx//j/AAAtACEAAADx//n/AAAtACEAAADy//r/AAAtACEAAADz//r/AAAtACEAAAD0//r/AAAtACEAAAD1//r/AAAtACEAAAD2//r/AAAtACEAAAD2//n/AAAtACEAAAD3//j/AAAtACEAAAD3//f/AAAtACEAAAD3//b/AAAtACEAAAD3//X/AAAtACEAAAD4//T/AAAtACEAAAD5//P/AAAtACEAAAD6//L/AAAtACEAAAD7//H/AAAtACEAAAD8//H/AAAtACEAAAD9//H/AAAtACEAAAD+//H/AAAtACEAAAD///H/AAAtACEAAAAAAPH/AAAtACEAAAABAPL/AAAtACEAAAACAPP/AAAtACEAAAADAPT/AAAtACEAAAAEAPT/AAAtACEAAAAEAPX/AAAtACEAAAAFAPb/AAAtACEAAAAFAPf/AAAtACEAAAAFAPj/AAAtACEAAAAFAPn/AAAtACEAAAAGAPr/AAAtACEAAAAHAPv/AAAtACEAAAAIAPz/AAAtACEAAAAJAPz/AAAtACEAAAAKAPz/AAAtACEAAAALAPz/AAAtACEAAAAMAPz/AAAtACEAAAANAPz/AAAtACEAAAANAP3/AAAtACEAAAAOAP3/AAAtACEAAAAOAP7/AAAtACEAAAAPAP7/AAAtACEAAAAPAP//AAAtACEAAAAPAAAAAAAtACEAAAAPAAEAAAAtACEAAAAPAAIAAAAtACEAAAAPAAMAAAAtACEAAAAPAAQAAAAtACEAAAAOAAYAAAAtACEAAAANAAYAAAAtACEAAAD5/wcAAAAtACEAAAD5/wYAAAAtACEAAAD5/wUAAAAtACEAAAD5/wQAAAAtACEAAAD5/wMAAAAtACEAAAD4/wMAAAAtACEAAAD2/wQAAAAtACEAAADx/wUAAAAtACEAAADt/wYAAAAtACEAAADi/wgAAAAtACEAAADi/wkAAAAtACEAAADi/woAAAAtACEAAADi/wsAAAAtACEAAADi/wwAAAAtACEAAADi/w0AAAAtACEAAADQ/w4AAAAtACEAAADP/w4AAAAtACEAAADO/w0AAAAtACEAAADO/wwAAAAtACEAAADP/w0AAAAtACEAAADO/wsAAAAtACEAAADO/woAAAAtACEAAADO/wkAAAAtACEAAADO/wgAAAAtACEAAADO/wcAAAAtACEAAADO/wYAAAAtACEAAADO/wUAAAAtACEAAADO/wQAAAAtACEAAADO/wMAAAAtACEAAADO/wIAAAAtACEAAADO/wEAAAAtACEAAADO/wAAAAAtACEAAADO////AAAtACEAAADO//7/AAAtACEAAADP//3/AAAtACEAAADQ//z/AAAtACEAAADQ//v/AAAtACEAAADQ//r/AAAtACEAAADQ//n/AAAtACEAAADQ//j/AAAtACEAAADQ//f/AAAtACEAAAD2//v/AAAtACEAAAD1//v/AAAtACEAAAD0//v/AAAtACEAAADz//v/AAAtACEAAADy//v/AAAtACEAAADx//r/AAAtACEAAADw//b/AAAtACEAAADv//X/AAAtACEAAADv//T/AAAtACEAAADu//P/AAAtACEAAADt//P/AAAtACEAAADs//P/AAAtACEAAADr//P/AAAtACEAAADq//P/AAAtACEAAADp//P/AAAtACEAAADo//P/AAAtACEAAADn//P/AAAtACEAAADm//P/AAAtACEAAADl//T/AAAtACEAAADk//X/AAAtACEAAADj//b/AAAtACEAAADi//f/AAAtACEAAADh//j/AAAtACEAAADg//n/AAAtACEAAADf//n/AAAtACEAAADe//n/AAAtACEAAADd//n/AAAtACEAAADd//j/AAAtACEAAADd//f/AAAtACEAAADd//b/AAAtACEAAADd//X/AAAtACEAAADd//T/AAAtACEAAADd//P/AAAtACEAAADc//L/AAAtACEAAADb//L/AAAtACEAAADa//L/AAAtACEAAADY//L/AAAtACEAAADX//L/AAAtACEAAADW//L/AAAtACEAAADZ//L/AAAtACEAAADV//L/AAAtACEAAADU//L/AAAtACEAAADT//L/AAAtACEAAADS//P/AAAtACEAAADR//T/AAAtACEAAADQ//3/AAAtACEAAADP//7/AAAtACEAAAD4//X/AAAtACEAAAD5//T/AAAtACEAAAD6//P/AAAtACEAAAD7//L/AAAtACEAAAD8//L/AAAtACEAAAD9//L/AAAtACEAAAD+//L/AAAtACEAAAD///L/AAAtACEAAAAAAPL/AAAtACEAAAABAPP/AAAtACEAAAACAPT/AAAtACEAAAADAPX/AAAtACEAAAAEAPb/AAAtACEAAAAFAPr/AAAtACEAAAAGAPv/AAAtACEAAAAHAPz/AAAtACEAAAAIAP3/AAAtACEAAAAJAP3/AAAtACEAAAAKAP3/AAAtACEAAAALAP3/AAAtACEAAAAMAP3/AAAtACEAAAANAP7/AAAtACEAAAAOAP//AAAtACEAAAAOAAUAAAAtACEAAADQ/w0AAAAtACEAAADP/wwAAAAtACEAAADe/w8AAAAtACEAAADf/w8AAAAtACEAAADh/w4AAAAtACEAAADj/wcAAAAtACEAAAACAAgAAAAtACEAAAADAAcAAAAtACEAAAD5/wgAAAAtACEAAAA=")
 tile_set = SubResource("TileSet_2ts83")
+
+[connection signal="pressed" from="GUI/DialogueBox/Box/Continue" to="GUI/DialogueBox" method="_on_continue_pressed"]

@@ -20,20 +20,16 @@ func _on_body_entered(body: Node) -> void:
 		return
 	if not body.is_in_group("player"):
 		return
-
 	var pouch := (body as Player).potion_pouch if body is Player else null
 	if pouch == null:
 		pouch = get_tree().get_first_node_in_group("potion_pouch") as PotionPouch
 	if pouch == null:
 		return
-
 	if auto_register:
 		pouch.register_item(item)
-
 	var added: int = pouch.add_capped(item.id, amount)
 	if added <= 0:
 		return
-
 	_consumed = true
 	_spawn_popup_above(body, added)
 	_consume_and_despawn()

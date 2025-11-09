@@ -13,10 +13,10 @@ func show_popup(tex: Texture2D, text: String) -> void:
 	if tex:
 		icon.texture = tex
 	label.text = text
-
+	
 	position += start_offset
 	modulate.a = 1.0
-
+	
 	var tw := create_tween()
 	tw.tween_property(self, "position:y", position.y - rise, duration)
 	tw.parallel().tween_property(self, "modulate:a", 0.0, duration)

@@ -1,24 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://demd8x3c3qg56"]
+[gd_scene load_steps=6 format=3 uid="uid://demd8x3c3qg56"]
 
 [ext_resource type="Texture2D" uid="uid://bf0yq5o7fqemx" path="res://Assets/UI/Sprites/ItemsIcons_24x24.png" id="1_lyh64"]
 [ext_resource type="Script" uid="uid://c0jldbwvnthpm" path="res://Assets/UI/pickup_popup.gd" id="1_tjmew"]
+[ext_resource type="FontFile" uid="uid://dsi2qnl2dwtbr" path="res://Assets/Fonts/at01.ttf" id="3_me3vr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tjmew"]
 atlas = ExtResource("1_lyh64")
 region = Rect2(39, 72, 17, 17)
 
+[sub_resource type="Theme" id="Theme_rrf14"]
+default_font = ExtResource("3_me3vr")
+default_font_size = 24
+
 [node name="PickupPopup" type="Node2D"]
+process_mode = 3
 scale = Vector2(0.6, 0.6)
 script = ExtResource("1_tjmew")
 rise = 12.0
-duration = 0.4
+duration = 0.6
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(8, 0)
 texture = SubResource("AtlasTexture_tjmew")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -20.0
-offset_top = -11.0
-offset_bottom = 12.0
+offset_left = -15.0
+offset_top = -9.999999
+offset_right = 5.0
+offset_bottom = 13.000001
+theme = SubResource("Theme_rrf14")
 text = "+1"
