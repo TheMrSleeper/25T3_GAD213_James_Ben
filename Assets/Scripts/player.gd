@@ -12,11 +12,16 @@ const DASH_SPEED: float = 400.0
 const DASH_DURATION: float = 0.3
 const POTION_DURATION: float = 1.2
 
-#DASHing
+#DASHING
 var dash_dir: Vector2 = Vector2.ZERO
 var dash_timer: float = 0.0
 var is_dashing: bool = false
 var can_take_damage: bool = true
+
+#ATTACKING
+var is_attacking: bool = false
+var attack_index: int = 0
+@onready var attack_area: Area2D = $AttackArea
 
 #POTIONS
 @onready var potion_pouch: PotionPouch = $PotionPouch
@@ -40,7 +45,7 @@ var _regen_cooldown: float = 0.0
 @export var Inventory: Inv
 
 #ANIMATIONS
-enum {IDLE, RUN, DASH, POTION}
+enum {IDLE, RUN, DASH, POTION, ATTACK1, ATTACK2}
 var state = IDLE
 
 @onready var animationTree = $AnimationTree
@@ -53,14 +58,18 @@ var blend_pos_paths = [
 	"parameters/idle/idle_bs2d/blend_position",
 	"parameters/run/run_bs2d/blend_position",
 	"parameters/dash/dash_bs2d/blend_position",
-	"parameters/potion/potion_bs2d/blend_position"
+	"parameters/potion/potion_bs2d/blend_position",
+	"parameters/attack1/attack1_bs2d/blend_position",
+	"parameters/attack2/attack2_bs2d/blend_position"
 ]
 
 var animTree_state_keys = [
 	"idle",
 	"run",
 	"dash",
-	"potion"
+	"potion",
+	"attack1",
+	"attack2"
 ]
 
 func _ready() -> void:
@@ -99,6 +108,10 @@ func _process(delta: float) -> void:
 			staminaChanged.emit()
 
 func _movement(delta: float) -> void:
+	if is_attacking:
+		velocity = Vector2.ZERO
+		return
+	
 	if is_drinking or potion_timer > 0.0:
 		state = POTION
 		return
@@ -126,6 +139,9 @@ func _movement(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("use_potion"):
 		_try_use_potion()
+	if event.is_action_pressed("attack"):
+		print("ATTACK INPUT")
+		_start_attack()
 	#elif event.is_action_pressed("next_potion"):
 		#potion_pouch.select_next()
 	#elif event.is_action_pressed("prev_potion"):
@@ -201,6 +217,41 @@ func _potion_logic(delta: float) -> void:
 	if potion_timer <= 0.0:
 		is_drinking = false
 		potion_dir = Vector2.ZERO
+
+func _start_attack() -> void:
+	if is_attacking or is_drinking or is_dashing:
+		return
+	
+	is_attacking = true
+	
+	attack_index = (attack_index + 1) % 2
+	
+	if attack_index == 0:
+		state = ATTACK1
+	else:
+		state = ATTACK2
+	
+	# Use facing direction for the attack blend
+	if facing_dir == Vector2.ZERO:
+		facing_dir = Vector2.DOWN
+	blend_position = facing_dir
+
+func attack_hitbox_enable() -> void:
+	print(">> attack_hitbox_enable")
+	attack_area.monitoring = true
+
+func attack_hitbox_disable() -> void:
+	print(">> attack_hitbox_disable")
+	attack_area.monitoring = false
+
+func attack_finished() -> void:
+	is_attacking = false
+
+func _on_AttackArea_body_entered(body: Node2D) -> void:
+	print(">> AttackArea body_entered:", body.name)
+	if is_attacking and body.has_method("take_damage"):
+		print(">> Calling take_damage on", body.name)
+		body.take_damage(1)
 
 func change_health(delta: float) -> void:
 	currentHealth = clampf(currentHealth + delta, 0.0, maxHealth)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://ddyanbqdyj65n"]
+[gd_scene load_steps=38 format=4 uid="uid://ddyanbqdyj65n"]
 
 [ext_resource type="PackedScene" uid="uid://dytmia58l4mkt" path="res://Node Prefabs/player.tscn" id="1_auylg"]
 [ext_resource type="Texture2D" uid="uid://c8vjqjbjjgldh" path="res://Assets/UI/Sprites/RectangleBox_96x96.png" id="1_h58ng"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://bqfaq3b8p2mw4" path="res://Assets/Scripts/staminaBar.gd" id="9_lj3dt"]
 [ext_resource type="Script" uid="uid://cu3tkps28amah" path="res://Assets/Scripts/playerCamera.gd" id="10_irc8b"]
 [ext_resource type="PackedScene" uid="uid://bncv4lqha7fdf" path="res://Inventory/Items/HealthPotion/PotionPickup.tscn" id="12_gia7o"]
+[ext_resource type="PackedScene" uid="uid://blf4khyiw2rok" path="res://Node Prefabs/enemy_slime.tscn" id="20_pik0d"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qvwxf"]
 texture = ExtResource("1_h58ng")
@@ -699,6 +700,9 @@ position = Vector2(-653, -130)
 
 [node name="HealthPotionPickup3" parent="YSort" instance=ExtResource("12_gia7o")]
 position = Vector2(-622, -79)
+
+[node name="EnemySlime" parent="YSort" instance=ExtResource("20_pik0d")]
+position = Vector2(-593, 35)
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
 texture_filter = 1
