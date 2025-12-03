@@ -94,7 +94,7 @@ func _pick_new_wander_target() -> void:
 	wander_target = spawn_position + offset
 
 func _on_detection_body_entered(body: Node2D) -> void:
-	if body.name == "Player": # or use a group "player"
+	if body.name == "Player":
 		player = body
 		state = State.CHASE
 
@@ -142,7 +142,6 @@ func _die() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO
 	state = State.IDLE
-	$CollisionShape2D.disabled = true
 	$DetectionArea.monitoring = false
 	
 	var attack_area := get_node_or_null("AttackArea")
@@ -150,6 +149,9 @@ func _die() -> void:
 		attack_area.monitoring = false
 	
 	anim_state.travel("Death")
+	await anim_tree.animation_finished
+	queue_free()
 
 func _on_death_animation_finished() -> void:
-	queue_free()
+	if anim_state.travel("Death"):
+		queue_free()

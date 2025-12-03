@@ -704,6 +704,21 @@ position = Vector2(-622, -79)
 [node name="EnemySlime" parent="YSort" instance=ExtResource("20_pik0d")]
 position = Vector2(-593, 35)
 
+[node name="EnemySlime2" parent="YSort" instance=ExtResource("20_pik0d")]
+position = Vector2(-636, 159)
+
+[node name="EnemySlime3" parent="YSort" instance=ExtResource("20_pik0d")]
+position = Vector2(-733, 96)
+
+[node name="EnemySlime4" parent="YSort" instance=ExtResource("20_pik0d")]
+position = Vector2(115, 38)
+
+[node name="EnemySlime5" parent="YSort" instance=ExtResource("20_pik0d")]
+position = Vector2(-8, 16)
+
+[node name="EnemySlime6" parent="YSort" instance=ExtResource("20_pik0d")]
+position = Vector2(9, -90)
+
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
 texture_filter = 1
 position = Vector2(-1, 1)
