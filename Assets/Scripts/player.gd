@@ -12,16 +12,26 @@ const DASH_SPEED: float = 400.0
 const DASH_DURATION: float = 0.3
 const POTION_DURATION: float = 1.2
 
+var spawn_position: Vector2
+
 #DASHING
 var dash_dir: Vector2 = Vector2.ZERO
 var dash_timer: float = 0.0
 var is_dashing: bool = false
 var can_take_damage: bool = true
 
-#ATTACKING
+# ATTACK
+@export var attack1_duration: float = 0.25
+@export var attack2_duration: float = 0.3
+@export var attack_damage: float = 15.0
+
 var is_attacking: bool = false
+var attack_timer: float = 0.0
+var current_attack_duration: float = 0.0
 var attack_index: int = 0
-@onready var attack_area: Area2D = $AttackArea
+var attack_dir: Vector2 = Vector2.ZERO
+var attack_active: bool = false
+var attacked_bodies: Array = []
 
 #POTIONS
 @onready var potion_pouch: PotionPouch = $PotionPouch
@@ -51,6 +61,7 @@ var state = IDLE
 @onready var animationTree = $AnimationTree
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine = animationTree["parameters/playback"]
+@onready var attack_area: Area2D = $AttackArea
 var facing_dir: Vector2 = Vector2.LEFT
 
 var blend_position : Vector2 = Vector2.ZERO
@@ -74,6 +85,7 @@ var animTree_state_keys = [
 
 func _ready() -> void:
 	add_to_group("player")
+	spawn_position = global_position
 	var health_potion: InventoryItem = load("res://Inventory/Items/HealthPotion/health_potion.tres")
 	potion_pouch.register_item(health_potion)
 	healthChanged.emit()
@@ -88,6 +100,12 @@ func _physics_process(delta: float) -> void:
 		_potion_logic(delta)
 		state = POTION
 		velocity = Vector2.ZERO
+		animate()
+		move_and_slide()
+		return
+	
+	if is_attacking:
+		_attack_logic(delta)
 		animate()
 		move_and_slide()
 		return
@@ -108,10 +126,6 @@ func _process(delta: float) -> void:
 			staminaChanged.emit()
 
 func _movement(delta: float) -> void:
-	if is_attacking:
-		velocity = Vector2.ZERO
-		return
-	
 	if is_drinking or potion_timer > 0.0:
 		state = POTION
 		return
@@ -139,9 +153,8 @@ func _movement(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("use_potion"):
 		_try_use_potion()
-	if event.is_action_pressed("attack"):
-		print("ATTACK INPUT")
-		_start_attack()
+	elif event.is_action_pressed("attack"):
+		_try_attack()
 	#elif event.is_action_pressed("next_potion"):
 		#potion_pouch.select_next()
 	#elif event.is_action_pressed("prev_potion"):
@@ -218,46 +231,92 @@ func _potion_logic(delta: float) -> void:
 		is_drinking = false
 		potion_dir = Vector2.ZERO
 
-func _start_attack() -> void:
-	if is_attacking or is_drinking or is_dashing:
+func _try_attack() -> void:
+	# Don't allow attack in these situations
+	if is_attacking:
+		return
+	if is_dashing or is_drinking or potion_timer > 0.0:
 		return
 	
+	var dir: Vector2 = facing_dir
+	if dir == Vector2.ZERO:
+		dir = Vector2.DOWN  # default facing direction if somehow neutral
+	
+	_start_attack(dir)
+
+
+func _start_attack(dir: Vector2) -> void:
 	is_attacking = true
+	attack_dir = dir.normalized()
+	blend_position = attack_dir
+	facing_dir = attack_dir
 	
-	attack_index = (attack_index + 1) % 2
+	attacked_bodies.clear()
+	attack_active = false
 	
+	# Alternate between attack1 and attack2
 	if attack_index == 0:
 		state = ATTACK1
+		current_attack_duration = attack1_duration
+		attack_index = 1
 	else:
 		state = ATTACK2
+		current_attack_duration = attack2_duration
+		attack_index = 0
 	
-	# Use facing direction for the attack blend
-	if facing_dir == Vector2.ZERO:
-		facing_dir = Vector2.DOWN
-	blend_position = facing_dir
+	attack_timer = current_attack_duration
+	_update_attack_area()  # position hitbox in front
 
-func attack_hitbox_enable() -> void:
-	print(">> attack_hitbox_enable")
-	attack_area.monitoring = true
+func _attack_logic(delta: float) -> void:
+	# Player stays rooted while attacking
+	velocity = Vector2.ZERO
+	
+	if current_attack_duration <= 0.0:
+		current_attack_duration = attack1_duration  # fallback
+	
+	attack_timer -= delta
+	var t := 1.0 - (attack_timer / current_attack_duration)
+	t = clamp(t, 0.0, 1.0)
+	
+	var was_active := attack_active
+	attack_active = (t >= 0.1 and t <= 0.3)
+	
+	if attack_active:
+		_update_attack_area()
+		_check_attack_hits()
+	
+	if attack_timer <= 0.0:
+		is_attacking = false
+		attack_active = false
+		attack_dir = Vector2.ZERO
 
-func attack_hitbox_disable() -> void:
-	print(">> attack_hitbox_disable")
-	attack_area.monitoring = false
+func _update_attack_area() -> void:
+	if attack_area == null:
+		return
+	var reach: float = 16.0
+	attack_area.position = attack_dir * reach
 
-func attack_finished() -> void:
-	is_attacking = false
-
-func _on_AttackArea_body_entered(body: Node2D) -> void:
-	print(">> AttackArea body_entered:", body.name)
-	if is_attacking and body.has_method("take_damage"):
-		print(">> Calling take_damage on", body.name)
-		body.take_damage(1)
+func _check_attack_hits() -> void:
+	if attack_area == null:
+		return
+	
+	for body in attack_area.get_overlapping_bodies():
+		if body in attacked_bodies:
+			continue
+		
+		if body.has_method("apply_player_hit"):
+			body.apply_player_hit(self, attack_damage)
+			attacked_bodies.append(body)
+		print("Hit: ", body)
 
 func change_health(delta: float) -> void:
 	currentHealth = clampf(currentHealth + delta, 0.0, maxHealth)
 	healthChanged.emit()
 	healthUpdated.emit()
 	print("HP change: %+d -> %.1f/%.1f" % [int(delta), currentHealth, maxHealth])
+	
+	if currentHealth <= 0.0:
+		_on_death()
 
 func start_heal_over_time_continuous(total_heal: float, duration: float, ease_curve: Curve = null) -> void:
 	if duration <= 0.0 or total_heal == 0.0:
@@ -306,3 +365,27 @@ func get_head_position(offset: Vector2 = Vector2(0, -4)) -> Vector2:
 		var h := s.texture.get_size().y * s.scale.y
 		return global_position + Vector2(0, -h * 0.5) + offset
 	return global_position + Vector2(0, -16) + offset
+
+func _on_death() -> void:
+	# Stop all actions
+	is_dashing = false
+	dash_timer = 0.0
+	is_drinking = false
+	potion_timer = 0.0
+	is_attacking = false
+	attack_timer = 0.0
+	velocity = Vector2.ZERO
+	can_take_damage = false
+	
+	await get_tree().create_timer(0.6).timeout
+	
+	# Respawn at start position
+	global_position = spawn_position
+	currentHealth = maxHealth
+	healthChanged.emit()
+	healthUpdated.emit()
+	
+	# Reset stamina etc.
+	currentStamina = maxStamina
+	staminaChanged.emit()
+	can_take_damage = true

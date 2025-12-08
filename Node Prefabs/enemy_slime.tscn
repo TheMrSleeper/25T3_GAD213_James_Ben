@@ -1,7 +1,8 @@
-[gd_scene load_steps=241 format=3 uid="uid://blf4khyiw2rok"]
+[gd_scene load_steps=242 format=3 uid="uid://blf4khyiw2rok"]
 
 [ext_resource type="Script" uid="uid://c1rp7v1by5etm" path="res://Assets/Scripts/Slime.gd" id="1_bwjhn"]
 [ext_resource type="Texture2D" uid="uid://t5vfp2ld86tv" path="res://Assets/Sprites/Enemies/Slime/Attack/Slime2_Attack_full.png" id="2_5bvks"]
+[ext_resource type="PackedScene" uid="uid://bncv4lqha7fdf" path="res://Inventory/Items/HealthPotion/PotionPickup.tscn" id="2_ia85u"]
 [ext_resource type="Texture2D" uid="uid://bhlwd545fq3o0" path="res://Assets/Sprites/Enemies/Slime/Death/Slime2_Death_full.png" id="3_ia85u"]
 [ext_resource type="Texture2D" uid="uid://b26jia22hqcbf" path="res://Assets/Sprites/Enemies/Slime/Hurt/Slime2_Hurt_full.png" id="4_75suo"]
 [ext_resource type="Texture2D" uid="uid://cone75k7twoal" path="res://Assets/Sprites/Enemies/Slime/Idle/Slime2_Idle_full.png" id="5_x41e2"]
@@ -1230,9 +1231,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gnf25"]
-radius = 64.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_g16ts"]
 radius = 9.0
 
@@ -1264,6 +1262,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_anim_hit_notify"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_fxcal"]
 resource_name = "Attack_Left"
@@ -1292,6 +1304,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_anim_hit_notify"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_nvb8l"]
@@ -1322,6 +1348,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_anim_hit_notify"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_k7pjd"]
 resource_name = "Attack_Up"
@@ -1350,6 +1390,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_anim_hit_notify"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_lp5mr"]
@@ -1872,6 +1926,8 @@ _data = {
 &"Run_Up": SubResource("Animation_yw14s")
 }
 
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_5bvks"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kkfj4"]
 animation = &"Attack_Down"
 
@@ -1896,10 +1952,13 @@ blend_point_3/pos = Vector2(-1, 0)
 blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_77f4b"]
-graph_offset = Vector2(-834, 18.666666)
+graph_offset = Vector2(-271, 155.66666)
+nodes/output/position = Vector2(500, 240)
 nodes/attack_bs2d/node = SubResource("AnimationNodeBlendSpace2D_q8osg")
 nodes/attack_bs2d/position = Vector2(52.666668, 189.33333)
-node_connections = [&"output", 0, &"attack_bs2d"]
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_5bvks")
+nodes/TimeScale/position = Vector2(297, 275.66666)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"attack_bs2d"]
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_bwjhn"]
 
@@ -1961,7 +2020,7 @@ blend_point_3/pos = Vector2(-1, 0)
 blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5bvks"]
-graph_offset = Vector2(-278.2842, 42.627136)
+graph_offset = Vector2(-213, 72)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_si54b")
 nodes/TimeScale/position = Vector2(153.68738, 190.98985)
 nodes/hurt_bs2d/node = SubResource("AnimationNodeBlendSpace2D_niwcc")
@@ -2077,23 +2136,20 @@ states/Run/node = SubResource("AnimationNodeBlendTree_i6i6g")
 states/Run/position = Vector2(521, 100)
 states/Start/position = Vector2(271, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_0qyow"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_bwjhn"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_5bvks"), "Idle", "Hurt", SubResource("AnimationNodeStateMachineTransition_ia85u"), "Hurt", "Idle", SubResource("AnimationNodeStateMachineTransition_75suo"), "Run", "Hurt", SubResource("AnimationNodeStateMachineTransition_x41e2"), "Hurt", "Run", SubResource("AnimationNodeStateMachineTransition_1m0qs"), "Run", "Death", SubResource("AnimationNodeStateMachineTransition_aenjy"), "Hurt", "Death", SubResource("AnimationNodeStateMachineTransition_v1up3"), "Idle", "Death", SubResource("AnimationNodeStateMachineTransition_kkfj4"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_mytwp"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_wwhpb"), "Run", "Attack", SubResource("AnimationNodeStateMachineTransition_prww4"), "Attack", "Run", SubResource("AnimationNodeStateMachineTransition_4yqds")]
-graph_offset = Vector2(-555, -154)
+graph_offset = Vector2(-120, -95)
 
 [node name="EnemySlime" type="CharacterBody2D"]
 collision_layer = 8
-collision_mask = 13
+collision_mask = 4
 script = ExtResource("1_bwjhn")
+hurt_duration = 0.7
+potion_drop_scene = ExtResource("2_ia85u")
+attack_duration = 0.6
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fy46f")
 animation = &"Idle_Down"
 offset = Vector2(0, -6)
-
-[node name="DetectionArea" type="Area2D" parent="."]
-collision_layer = 9
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("CircleShape2D_gnf25")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
@@ -2109,9 +2165,10 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_d8gnu")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Attack/attack_bs2d/blend_position = Vector2(0, 0)
+parameters/Attack/TimeScale/scale = 2.0
 parameters/Death/death_bs2d/blend_position = Vector2(0, 0)
 parameters/Death/TimeScale/scale = 1.0
-parameters/Hurt/TimeScale/scale = 1.0
+parameters/Hurt/TimeScale/scale = 0.7999999999999972
 parameters/Hurt/hurt_bs2d/blend_position = Vector2(0, 0)
 parameters/Idle/idle_bs2d/blend_position = Vector2(0, 0)
 parameters/Idle/TimeScale/scale = 0.6
@@ -2119,6 +2176,6 @@ parameters/Run/run_bs2d/blend_position = Vector2(0, 0)
 parameters/Run/TimeScale/scale = 0.7999999999999972
 
 [node name="HurtTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.8
 
 [connection signal="timeout" from="HurtTimer" to="." method="_on_HurtTimer_timeout"]
