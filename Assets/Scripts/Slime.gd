@@ -45,12 +45,17 @@ var stop_timer: float = 0.0
 @export var attack_cooldown: float = 0.8
 @export var attack_damage: float = 10.0
 
+@export var attack_hitbox_radius: float = 12.0
+@export var attack_hitbox_offset: float = 10.0
+
 var attack_timer: float = 0.0
 var attack_cooldown_timer: float = 0.0
 
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var anim_state = anim_tree.get("parameters/playback")
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var attack_area: Area2D = $AttackArea
+@onready var attack_shape: CollisionShape2D = $AttackArea/CollisionShape2D
 
 func _ready() -> void:
 	randomize()
@@ -58,6 +63,10 @@ func _ready() -> void:
 	stuck_check_position = global_position
 	health = max_health
 	add_to_group("enemy")
+	
+	if attack_shape and attack_shape.shape is CircleShape2D:
+		var circle := attack_shape.shape as CircleShape2D
+		circle.radius = attack_hitbox_radius
 	
 	anim_tree.active = true
 	_set_idle()
@@ -111,6 +120,7 @@ func _physics_process(delta: float) -> void:
 						velocity = Vector2.ZERO
 						if dist > 0.01:
 							last_move_dir = to_player.normalized()
+						_update_attack_hitbox_position()
 					else:
 						_move_towards(player.global_position)
 			else:
@@ -284,15 +294,29 @@ func attack_anim_hit_notify() -> void:
 	if state != State.ATTACK:
 		return
 	
+	_update_attack_hitbox_position()
 	_attempt_attack_hit()
 
+func _update_attack_hitbox_position() -> void:
+	if attack_area == null:
+		return
+	
+	var dir := last_move_dir
+	if dir.length() <= 0.01:
+		dir = Vector2.DOWN
+	
+	attack_area.position = dir.normalized() * attack_hitbox_offset
+
 func _attempt_attack_hit() -> void:
-	if player == null:
+	if player == null or attack_area == null:
 		return
 	
 	# Respect player's i-frames/dodge
 	if not player.can_take_damage:
 		return
 	
-	if global_position.distance_to(player.global_position) <= attack_range:
-		player.change_health(-attack_damage)
+	# Check who is inside the hitbox
+	for body in attack_area.get_overlapping_bodies():
+		if body == player:
+			player.change_health(-attack_damage)
+			break

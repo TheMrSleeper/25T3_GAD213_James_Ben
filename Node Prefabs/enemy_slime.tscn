@@ -1,4 +1,4 @@
-[gd_scene load_steps=242 format=3 uid="uid://blf4khyiw2rok"]
+[gd_scene load_steps=243 format=3 uid="uid://blf4khyiw2rok"]
 
 [ext_resource type="Script" uid="uid://c1rp7v1by5etm" path="res://Assets/Scripts/Slime.gd" id="1_bwjhn"]
 [ext_resource type="Texture2D" uid="uid://t5vfp2ld86tv" path="res://Assets/Sprites/Enemies/Slime/Attack/Slime2_Attack_full.png" id="2_5bvks"]
@@ -2138,6 +2138,9 @@ states/Start/position = Vector2(271, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_0qyow"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_bwjhn"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_5bvks"), "Idle", "Hurt", SubResource("AnimationNodeStateMachineTransition_ia85u"), "Hurt", "Idle", SubResource("AnimationNodeStateMachineTransition_75suo"), "Run", "Hurt", SubResource("AnimationNodeStateMachineTransition_x41e2"), "Hurt", "Run", SubResource("AnimationNodeStateMachineTransition_1m0qs"), "Run", "Death", SubResource("AnimationNodeStateMachineTransition_aenjy"), "Hurt", "Death", SubResource("AnimationNodeStateMachineTransition_v1up3"), "Idle", "Death", SubResource("AnimationNodeStateMachineTransition_kkfj4"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_mytwp"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_wwhpb"), "Run", "Attack", SubResource("AnimationNodeStateMachineTransition_prww4"), "Attack", "Run", SubResource("AnimationNodeStateMachineTransition_4yqds")]
 graph_offset = Vector2(-120, -95)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_5bvks"]
+radius = 20.024984
+
 [node name="EnemySlime" type="CharacterBody2D"]
 collision_layer = 8
 collision_mask = 4
@@ -2145,6 +2148,7 @@ script = ExtResource("1_bwjhn")
 hurt_duration = 0.7
 potion_drop_scene = ExtResource("2_ia85u")
 attack_duration = 0.6
+attack_hitbox_radius = 20.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fy46f")
@@ -2177,5 +2181,11 @@ parameters/Run/TimeScale/scale = 0.7999999999999972
 
 [node name="HurtTimer" type="Timer" parent="."]
 wait_time = 0.8
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_5bvks")
 
 [connection signal="timeout" from="HurtTimer" to="." method="_on_HurtTimer_timeout"]

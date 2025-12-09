@@ -2605,6 +2605,7 @@ shape = SubResource("CapsuleShape2D_621vu")
 
 [node name="AttackArea" type="Area2D" parent="."]
 position = Vector2(-18, -10)
+scale = Vector2(1, 1.3599997)
 collision_layer = 16
 collision_mask = 8
 
