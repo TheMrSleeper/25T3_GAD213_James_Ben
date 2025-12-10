@@ -19,6 +19,7 @@ var dash_dir: Vector2 = Vector2.ZERO
 var dash_timer: float = 0.0
 var is_dashing: bool = false
 var can_take_damage: bool = true
+@export var enemy_collision_layer_index: int = 4
 
 # ATTACK
 @export var attack1_duration: float = 0.25
@@ -170,6 +171,8 @@ func dash(dir: Vector2) -> void:
 	can_take_damage = false
 	_regen_cooldown = staminaRegenDelay
 	state = DASH
+	
+	_ignore_enemy_collision()
 
 func _dash_logic(delta: float) -> void:
 	var elapsed_percent = clamp(1.0 - (dash_timer / DASH_DURATION), 0.0, 1.0)
@@ -183,9 +186,18 @@ func _dash_logic(delta: float) -> void:
 		is_dashing = false
 		var end_dir := dash_dir
 		dash_dir = Vector2.ZERO
+		
+		_restore_enemy_collision()
+		
 		if queued_potion:
 			queued_potion = false
 			_drink_potion(end_dir.normalized())
+
+func _ignore_enemy_collision() -> void:
+	set_collision_mask_value(enemy_collision_layer_index, false)
+
+func _restore_enemy_collision() -> void:
+	set_collision_mask_value(enemy_collision_layer_index, true)
 
 func _try_use_potion() -> void:
 	if is_drinking:

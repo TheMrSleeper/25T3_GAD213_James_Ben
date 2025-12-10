@@ -113,14 +113,19 @@ func _physics_process(delta: float) -> void:
 					var to_player := player.global_position - global_position
 					var dist := to_player.length()
 					
-					if dist <= attack_range and attack_cooldown_timer <= 0.0:
-						# begin attack
-						state = State.ATTACK
-						attack_timer = attack_duration
-						velocity = Vector2.ZERO
-						if dist > 0.01:
-							last_move_dir = to_player.normalized()
-						_update_attack_hitbox_position()
+					if dist > 0.01:
+						last_move_dir = to_player.normalized()
+					
+					if dist <= attack_range:
+						if attack_cooldown_timer <= 0.0:
+							# begin attack
+							state = State.ATTACK
+							attack_timer = attack_duration
+							velocity = Vector2.ZERO
+							_update_attack_hitbox_position()
+						else:
+							velocity = Vector2.ZERO
+							move_and_slide()
 					else:
 						_move_towards(player.global_position)
 			else:
